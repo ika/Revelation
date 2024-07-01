@@ -1,4 +1,4 @@
 # revelation
 
-A new Flutter project.
+The Revelation of John, translated from the New Vulgate.
 
