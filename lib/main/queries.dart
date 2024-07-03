@@ -37,6 +37,9 @@ class RevQueries {
           )
         : [];
 
+    final heading = Rev(id: 0, t: "The Revelation of John\nI looked, and there was a door open into heaven");
+
+    list.insert(0, heading);
     list.insertAll(list.length, addedLines); // add empty lines
 
     return list;
