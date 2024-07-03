@@ -11,7 +11,7 @@ import 'package:revelation/bloc/bloc_refs.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/bloc/bloc_size.dart';
 import 'package:revelation/bloc/bloc_theme.dart';
-import 'package:revelation/main/index.dart';
+import 'package:revelation/main/page.dart';
 import 'package:revelation/theme/apptheme.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: state ? ThemeMode.light : ThemeMode.dark,
-            home: const IndexPage(),
+            home: const RevPage(),
           );
         },
       ),

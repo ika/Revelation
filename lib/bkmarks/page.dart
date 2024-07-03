@@ -1,7 +1,6 @@
 import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bkmarks/queries.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
-import 'package:revelation/main/page.dart';
 import 'package:revelation/utils/globals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -154,15 +153,15 @@ class BMMarksPageState extends State<BMMarksPage> {
                               //     },
                               //   );
                               // },
-                              () {
-                                Navigator.push(
-                                   context,
-                                   MaterialPageRoute(
-                                     builder: (context) =>
-                                         const ConfPage(),
-                                   ),
-                                );
-                              },
+                              // () {
+                              //   Navigator.push(
+                              //      context,
+                              //      MaterialPageRoute(
+                              //        builder: (context) =>
+                              //            const ConfPage(),
+                              //      ),
+                              //   );
+                              // },
                             );
                             break;
 
@@ -180,47 +179,11 @@ class BMMarksPageState extends State<BMMarksPage> {
                             // );
                             break;
 
-                          case 3:
-                            // Future.delayed(
-                            //   Duration(milliseconds: Globals.navigatorDelay),
-                            //   () {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => const ShorterPage(),
-                            //       ),
-                            //     );
-                            //   },
-                           // );
-                            break;
 
-                          case 4:
-                            // Future.delayed(
-                            //   Duration(milliseconds: Globals.navigatorDelay),
-                            //   () {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => const DortPage(),
-                            //       ),
-                            //     );
-                            //   },
-                            // );
-                            break;
 
-                          // case 5:
-                          //   Future.delayed(
-                          //     Duration(milliseconds: Globals.navigatorDelay),
-                          //     () {
-                          //       Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => const FontsPage(),
-                          //         ),
-                          //       );
-                          //     },
-                          //   );
-                          //   break;
+
+
+
                         }
                       },
                     ),

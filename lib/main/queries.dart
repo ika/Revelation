@@ -1,64 +1,44 @@
+// 5 points database queries
+
+
+
 import 'package:revelation/main/model.dart';
 import 'package:revelation/main/provider.dart';
 import 'package:revelation/utils/const.dart';
-import 'package:revelation/utils/utils.dart';
-import 'package:sqflite/sqflite.dart';
 
-String _tableName = '';
+RevProvider revProvider = RevProvider();
+const String _dbTable = Constants.revTable;
 
-class WeQueries {
-  WeQueries(bool refsAreOn) {
-    _tableName = refsAreOn ? Constants.confRefsTable : Constants.confPlainTable;
-  }
+class RevQueries {
+  Future<List<Rev>> getRev() async {
+    final db = await revProvider.database;
 
-  Future<List<Wesminster>> getChapter(int chap) async {
-    final db = await WeProvider().database;
+    // add empty lines at the end
+    List<Rev> addedLines = [];
 
-    // add empty lines at the end of the chapter
-    List<Wesminster> addedLines = [];
+    final line = Rev(id: 0, t: '');
 
-    final line = Wesminster(id: 0, c: 0, v: 0, t: '');
-
-    for (int l = 0; l <= 35; l++) {
+    for (int l = 0; l <= 15; l++) {
       addedLines.add(line);
     }
 
     final List<Map<String, dynamic>> maps =
-        await db.rawQuery('''SELECT * FROM $_tableName WHERE c=?''', [chap]);
+        await db.rawQuery("SELECT * FROM $_dbTable");
 
-    List<Wesminster> list = maps.isNotEmpty
+    List<Rev> list = maps.isNotEmpty
         ? List.generate(
             maps.length,
             (i) {
-              return Wesminster(
+              return Rev(
                 id: maps[i]['id'],
-                c: maps[i]['c'],
-                v: maps[i]['v'],
                 t: maps[i]['t'],
               );
             },
           )
         : [];
 
-    final heading = Wesminster(
-      id: 0,
-      c: 0,
-      v: 0,
-      t: tableIndex[chap - 1],
-    );
-
-    list.insert(0, heading); // add heading
     list.insertAll(list.length, addedLines); // add empty lines
 
     return list;
-  }
-
-  Future<int> getChapterCount() async {
-    final db = await WeProvider().database;
-
-    var cnt = Sqflite.firstIntValue(
-      await db.rawQuery('''SELECT MAX(c) FROM $_tableName'''),
-    );
-    return cnt ?? 0;
   }
 }

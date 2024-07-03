@@ -1,8 +1,8 @@
-class Wesminster {
-  int? id; // auto row id
-  int? c; // chapter
-  int? v; // verse
-  String? t; // text
+// Main Database Model
 
-  Wesminster({this.id, this.c, this.v, this.t});
+class Rev {
+  int id;
+  String t;
+
+  Rev({required this.id, required this.t});
 }

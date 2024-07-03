@@ -1,245 +1,316 @@
-import 'dart:ui';
+import 'package:revelation/about/page.dart';
 import 'package:revelation/bkmarks/model.dart';
-import 'package:revelation/bloc/bloc_chapters.dart';
+import 'package:revelation/bkmarks/page.dart';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
-import 'package:revelation/bloc/bloc_refs.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/bloc/bloc_size.dart';
+import 'package:revelation/fonts/fonts.dart';
 import 'package:revelation/fonts/list.dart';
 import 'package:revelation/main/model.dart';
 import 'package:revelation/main/queries.dart';
+import 'package:revelation/theme/theme.dart';
 import 'package:revelation/utils/globals.dart';
 import 'package:revelation/utils/menu.dart';
-import 'package:revelation/utils/utils.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:share_plus/share_plus.dart';
 
-late bool refsAreOn;
-int indexNumber = 0;
+// Shorter Catechism
 
-late PageController? pageController;
+RevQueries revQueries = RevQueries();
 
-class ConfPage extends StatefulWidget {
-  const ConfPage({super.key});
-
-  //final int page;
+class RevPage extends StatefulWidget {
+  const RevPage({super.key});
 
   @override
-  State<ConfPage> createState() => _ConfPageState();
+  RevPageState createState() => RevPageState();
 }
 
-class _ConfPageState extends State<ConfPage> {
+class RevPageState extends State<RevPage> {
   ItemScrollController initialScrollController = ItemScrollController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List<Rev> paragraphs = List<Rev>.empty();
 
   @override
   void initState() {
     super.initState();
-    
-    refsAreOn = context.read<RefsBloc>().state;
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         Future.delayed(Duration(milliseconds: Globals.navigatorLongDelay), () {
           if (initialScrollController.isAttached) {
-            initialScrollController
-                .scrollTo(
-              index: indexNumber, //context.read<ScrollBloc>().state,
+            initialScrollController.scrollTo(
+              index: context.read<ScrollBloc>().state,
               duration: Duration(milliseconds: Globals.navigatorLongDelay),
               curve: Curves.easeInOutCubic,
-            )
-                .then((value) {
-              // reset scrollto
-              context.read<ScrollBloc>().add(
-                    UpdateScroll(index: 0),
-                  );
-            });
+            );
+            // reset scroll index
+            context.read<ScrollBloc>().add(
+                  UpdateScroll(index: 0),
+                );
           } else {
-            debugPrint("initialScrollController is NOT attached");
+            debugPrint("initialScrollController in NOT attached");
           }
         });
       },
     );
   }
 
-  itemScrollControllerSelector() {
-    initialScrollController = ItemScrollController();
-  }
-
-  void getPageController() {
-    //pageController = PageController(initialPage: pageNumber);
-    pageController =
-        PageController(initialPage: context.read<ChapterBloc>().state);
-  }
-
-  Widget showListTile(Wesminster chapter) {
-   // return (refsAreOn)
-        // ? ListTile(
-        //     title: LinkifyText(
-        //       "${chapter.t}",
-        //       linkStyle: const TextStyle(color: Colors.red),
-        //       linkTypes: const [LinkType.hashTag],
-        //       textStyle: TextStyle(
-        //           fontFamily: fontsList[context.read<FontBloc>().state],
-        //           fontStyle: (context.read<ItalicBloc>().state)
-        //               ? FontStyle.italic
-        //               : FontStyle.normal,
-        //           fontSize: context.read<SizeBloc>().state),
-        //       onTap: (link) {
-        //         int lnk = int.parse(link.value!.toString().replaceAll('#', ''));
-
-        //         debugPrint("${chapter.c}:${chapter.v}:$lnk");
-
-        //         // ReQueries().getRef(lnk).then(
-        //         //   (value) {
-        //         //     String n = value.elementAt(0).n.toString();
-        //         //     String t = value.elementAt(0).t.toString();
-
-        //         //     // remove number from the text
-        //         //     int p = t.indexOf(' ');
-        //         //     t = t.substring(p).trim();
-
-        //         //     Map<String, String> data = {'header': n, 'contents': t};
-
-        //         //     GetRef().refDialog(context, data);
-        //         //   },
-        //         // );
-        //       },
-        //     ),
-        //   )
-        return ListTile(
-            title: Text(
-              chapter.t!,
-              style: TextStyle(
-                  fontFamily: fontsList[context.read<FontBloc>().state],
-                  fontStyle: (context.read<ItalicBloc>().state)
-                      ? FontStyle.italic
-                      : FontStyle.normal,
-                  fontSize: context.read<SizeBloc>().state),
+    drawerCode() {
+    return Drawer(
+      //backgroundColor: Theme.of(context).drawerTheme.backgroundColor,
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: [
+          SizedBox(
+            height: 150.0,
+            child: DrawerHeader(
+              decoration: const BoxDecoration(
+                  //color: Theme.of(context).colorScheme.inversePrimary
+                  ),
+              child: Baseline(
+                baseline: 80,
+                baselineType: TextBaseline.alphabetic,
+                child: Text(
+                  AppLocalizations.of(context)!.index,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
             ),
-          );
+          ),
+          ListTile(
+            trailing: Icon(
+              Icons.keyboard_double_arrow_right,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.bookmarks,
+              style: Theme.of(context).textTheme.bodyLarge,
+              // style: TextStyle(
+              //   color: Colors.black87,
+              //   fontFamily: 'Raleway-Regular',
+              //   fontSize: 16,
+              // ),
+            ),
+            dense: true,
+            onTap: () {
+              Future.delayed(
+                Duration(milliseconds: Globals.navigatorDelay),
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BMMarksPage(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          ListTile(
+            trailing: Icon(
+              Icons.keyboard_double_arrow_right,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.fonts,
+              style: Theme.of(context).textTheme.bodyLarge,
+              // style: TextStyle(
+              //   color: Colors.black87,
+              //   fontFamily: 'Raleway-Regular',
+              //   fontSize: 16,
+              // ),
+            ),
+            dense: true,
+            onTap: () {
+              Future.delayed(
+                Duration(milliseconds: Globals.navigatorDelay),
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FontsPage(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          ListTile(
+            trailing: Icon(
+              Icons.keyboard_double_arrow_right,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.theme,
+              style: Theme.of(context).textTheme.bodyLarge,
+              // style: TextStyle(
+              //   color: Colors.black87,
+              //   fontFamily: 'Raleway-Regular',
+              //   fontSize: 16,
+              // ),
+            ),
+            dense: true,
+            onTap: () {
+              Future.delayed(
+                Duration(milliseconds: Globals.navigatorDelay),
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ThemePage(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          ListTile(
+            trailing: Icon(
+              Icons.keyboard_double_arrow_right,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.about,
+              style: Theme.of(context).textTheme.bodyLarge,
+              // style: TextStyle(
+              //   color: Colors.black87,
+              //   fontFamily: 'Raleway-Regular',
+              //   fontSize: 16,
+              // ),
+            ),
+            dense: true,
+            onTap: () {
+              Future.delayed(
+                Duration(milliseconds: Globals.navigatorDelay),
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AboutPage(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          ListTile(
+            trailing: Icon(
+              Icons.keyboard_double_arrow_right,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.share,
+              style: Theme.of(context).textTheme.bodyLarge,
+              // style: TextStyle(
+              //   color: Colors.black87,
+              //   fontFamily: 'Raleway-Regular',
+              //   fontSize: 16,
+              // ),
+            ),
+            dense: true,
+            onTap: () {
+              Navigator.pop(context);
+              Share.share(
+                  'https://play.google.com/store/apps/details?id=org.armstrong.ika.revelation');
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    //debugPrint("SCROLL TO INDEX ${context.read<ScrollBloc>().state}");
+    // final args =
+    //     ModalRoute.of(context)!.settings.arguments as PrefPageArguments;
 
-    indexNumber = context.read<ScrollBloc>().state;
-    //pageNumber = widget.page;
-
-    getPageController();
-    // context
-    //     .read<ChapterBloc>()
-    //     .add(UpdateChapter(chapter: pageController!.page!.toInt()));
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 5,
-          actions: [
-            Switch(
-              value: refsAreOn,
-              onChanged: (bool value) {
-                context.read<RefsBloc>().add(ChangeRefs(refsAreOn: value));
-                setState(() {
-                  refsAreOn = value;
-                });
-              },
-            ),
-          ],
-          title: BlocBuilder<ChapterBloc, int>(
-            builder: (context, state) {
-              int p = state + 1;
-              return Text(
-                "${AppLocalizations.of(context)!.chapter} $p",
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              );
-            },
-          ),
-          leading: GestureDetector(
-            child: const Icon(Icons.arrow_back),
-            onTap: () {
-              Future.delayed(Duration(microseconds: Globals.navigatorDelay),
-                  () {
-                Navigator.of(context).pop();
-              });
-            },
-          ),
-        ),
-        body: FutureBuilder<int>(
-          future: WeQueries(refsAreOn).getChapterCount(),
-          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-            if (snapshot.hasData) {
-              int chapterCount = snapshot.data!.toInt();
-              return ScrollConfiguration(
-                behavior: ScrollConfiguration.of(context).copyWith(
-                  dragDevices: {
-                    PointerDeviceKind.touch,
-                    PointerDeviceKind.mouse
-                  },
-                ),
-                child: PageView.builder(
-                  controller: pageController,
-                  itemCount: chapterCount,
-                  physics: const BouncingScrollPhysics(),
-                  pageSnapping: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    itemScrollControllerSelector();
-                    return Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FutureBuilder<List<Wesminster>>(
-                        future: WeQueries(refsAreOn).getChapter(
-                            index + 1), // index +1 from page controller
-                        initialData: const [],
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<Wesminster>> snapshot) {
-                          if (snapshot.hasData) {
-                            return ScrollablePositionedList.builder(
-                              itemCount: snapshot.data!.length,
-                              itemScrollController: initialScrollController,
-                              itemBuilder: (BuildContext context, int index) {
-                                final chapter = snapshot.data![index];
-                                return GestureDetector(
-                                  child: showListTile(chapter),
-                                  onTap: () {
-                                    final model = BmModel(
-                                        title: tableIndex[chapter.c! - 1],
-                                        subtitle: chapter.t!,
-                                        doc: 1, // document one
-                                        page: chapter.c!,
-                                        para: index);
-
-                                    showPopupMenu(context, model);
-                                  },
-                                );
-                              },
-                            );
-                          } else {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                        },
-                      ),
+    return FutureBuilder<List<Rev>>(
+      future: revQueries.getRev(),
+      builder: (context, AsyncSnapshot<List<Rev>> snapshot) {
+        if (snapshot.hasData) {
+          paragraphs = snapshot.data!;
+          return Scaffold(
+            key: scaffoldKey,
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 5,
+              leading: GestureDetector(
+                child: IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    Future.delayed(
+                      Duration(milliseconds: Globals.navigatorDelay),
+                      () {
+                        scaffoldKey.currentState!.openDrawer();
+                      },
                     );
                   },
-                  onPageChanged: (index) {
-                    // move to next chapter
-                    //pageNumber = index + 1;
-                    context
-                        .read<ChapterBloc>()
-                        .add(UpdateChapter(chapter: index));
-                  },
                 ),
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-      ),
+              ),
+              title: Text(AppLocalizations.of(context)!.revelation,
+                  style: const TextStyle(fontWeight: FontWeight.w700)
+                  // style: const TextStyle(
+                  //   color: Colors.yellow,
+                  // ),
+                  ),
+            ),
+            drawer: drawerCode(),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ScrollablePositionedList.builder(
+                itemCount: paragraphs.length,
+                itemScrollController: initialScrollController,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text(
+                      paragraphs[index].t,
+                      style: TextStyle(
+                          fontFamily: fontsList[context.read<FontBloc>().state],
+                          fontStyle: (context.read<ItalicBloc>().state)
+                              ? FontStyle.italic
+                              : FontStyle.normal,
+                          fontSize: context.read<SizeBloc>().state),
+                    ),
+                    // subtitle: Text(
+                    //   paragraphs[index].t,
+                    //   style: TextStyle(
+                    //       fontFamily: fontsList[context.read<FontBloc>().state],
+                    //       fontStyle: (context.read<ItalicBloc>().state)
+                    //           ? FontStyle.italic
+                    //           : FontStyle.normal,
+                    //       fontSize: context.read<SizeBloc>().state),
+                    // ),
+                    onTap: () {
+                      final model = BmModel(
+                          title: AppLocalizations.of(context)!.revelation,
+                          subtitle:
+                              paragraphs[index].t,
+                          doc: 3, // Prefrences
+                          page: 0, // not used
+                          para: index);
+
+                      //debugPrint(model.para.toString());
+
+                      showPopupMenu(context, model);
+                    },
+                  );
+                },
+              ),
+            ),
+          );
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }
