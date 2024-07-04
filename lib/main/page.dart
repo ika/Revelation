@@ -3,6 +3,7 @@ import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bkmarks/page.dart';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
+import 'package:revelation/bloc/bloc_refs.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/bloc/bloc_size.dart';
 import 'package:revelation/fonts/fonts.dart';
@@ -18,7 +19,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:share_plus/share_plus.dart';
 
-// Shorter Catechism
+// Revelation
+
+late bool refsAreOn;
 
 RevQueries revQueries = RevQueries();
 
@@ -38,6 +41,8 @@ class RevPageState extends State<RevPage> {
   @override
   void initState() {
     super.initState();
+
+    refsAreOn = context.read<RefsBloc>().state;
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
@@ -60,7 +65,7 @@ class RevPageState extends State<RevPage> {
     );
   }
 
-    drawerCode() {
+  drawerCode() {
     return Drawer(
       //backgroundColor: Theme.of(context).drawerTheme.backgroundColor,
       child: ListView(
@@ -228,6 +233,8 @@ class RevPageState extends State<RevPage> {
     );
   }
 
+  showListTile() {}
+
   @override
   Widget build(BuildContext context) {
     // final args =
@@ -243,6 +250,17 @@ class RevPageState extends State<RevPage> {
             appBar: AppBar(
               centerTitle: true,
               elevation: 5,
+              actions: [
+                Switch(
+                  value: refsAreOn,
+                  onChanged: (bool value) {
+                    context.read<RefsBloc>().add(ChangeRefs(refsAreOn: value));
+                    setState(() {
+                      refsAreOn = value;
+                    });
+                  },
+                ),
+              ],
               leading: GestureDetector(
                 child: IconButton(
                   icon: const Icon(Icons.menu),
@@ -270,39 +288,51 @@ class RevPageState extends State<RevPage> {
                 itemCount: paragraphs.length,
                 itemScrollController: initialScrollController,
                 itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(
-                      paragraphs[index].t,
-                      style: TextStyle(
-                          fontFamily: fontsList[context.read<FontBloc>().state],
-                          fontStyle: (context.read<ItalicBloc>().state)
-                              ? FontStyle.italic
-                              : FontStyle.normal,
-                          fontSize: context.read<SizeBloc>().state),
-                    ),
-                    // subtitle: Text(
-                    //   paragraphs[index].t,
-                    //   style: TextStyle(
-                    //       fontFamily: fontsList[context.read<FontBloc>().state],
-                    //       fontStyle: (context.read<ItalicBloc>().state)
-                    //           ? FontStyle.italic
-                    //           : FontStyle.normal,
-                    //       fontSize: context.read<SizeBloc>().state),
-                    // ),
-                    onTap: () {
-                      final model = BmModel(
-                          title: AppLocalizations.of(context)!.revelation,
-                          subtitle:
-                              paragraphs[index].t,
-                          doc: 3, // Prefrences
-                          page: 0, // not used
-                          para: index);
+                  return (refsAreOn)
+                      ? ListTile(
+                          title: Text(
+                            paragraphs[index].t, // with footnote links
+                            style: TextStyle(
+                                fontFamily:
+                                    fontsList[context.read<FontBloc>().state],
+                                fontStyle: (context.read<ItalicBloc>().state)
+                                    ? FontStyle.italic
+                                    : FontStyle.normal,
+                                fontSize: context.read<SizeBloc>().state),
+                          ),
+                          onTap: () {
+                            final model = BmModel(
+                                title: AppLocalizations.of(context)!.revelation,
+                                subtitle: paragraphs[index].t,
+                                doc: 1, // Prefrences
+                                page: 0, // not used
+                                para: index);
 
-                      //debugPrint(model.para.toString());
+                            showPopupMenu(context, model);
+                          },
+                        )
+                      : ListTile(
+                          title: Text(
+                            paragraphs[index].t.replaceAll(RegExp(r"\(\d+\)"), ""), // without footnote link
+                            style: TextStyle(
+                                fontFamily:
+                                    fontsList[context.read<FontBloc>().state],
+                                fontStyle: (context.read<ItalicBloc>().state)
+                                    ? FontStyle.italic
+                                    : FontStyle.normal,
+                                fontSize: context.read<SizeBloc>().state),
+                          ),
+                          onTap: () {
+                            final model = BmModel(
+                                title: AppLocalizations.of(context)!.revelation,
+                                subtitle: paragraphs[index].t,
+                                doc: 1, // Prefrences
+                                page: 0, // not used
+                                para: index);
 
-                      showPopupMenu(context, model);
-                    },
-                  );
+                            showPopupMenu(context, model);
+                          },
+                        );
                 },
               ),
             ),
