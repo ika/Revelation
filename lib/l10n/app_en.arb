@@ -37,5 +37,7 @@
   "switcher": "Theme Switcher",
   "lightdark": "Switch between Light and Dark Themes",
   "light": "Light",
-  "dark": "Dark"
+  "dark": "Dark",
+  "noteson": "Footnotes are on",
+  "notesoff": "Footnotes are off"
 }

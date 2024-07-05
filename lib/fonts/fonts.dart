@@ -99,7 +99,7 @@ class _FontsPageState extends State<FontsPage> {
       canPop: false,
       child: Scaffold(
         appBar: AppBar(
-          //centerTitle: true,
+          centerTitle: true,
           elevation: 5,
           leading: GestureDetector(
             child: const Icon(Icons.arrow_back),
@@ -115,7 +115,7 @@ class _FontsPageState extends State<FontsPage> {
           ),
           //elevation: 16,
           title: Text(
-            "$textSize",
+            "${AppLocalizations.of(context)!.fontsize} $textSize",
             style: const TextStyle(fontWeight: FontWeight.w700),
           ),
           actions: [

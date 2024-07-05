@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:revelation/about/page.dart';
 import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bkmarks/page.dart';
@@ -257,6 +259,13 @@ class RevPageState extends State<RevPage> {
                     context.read<RefsBloc>().add(ChangeRefs(refsAreOn: value));
                     setState(() {
                       refsAreOn = value;
+                      (refsAreOn)
+                          ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text(AppLocalizations.of(context)!.noteson)))
+                          : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  AppLocalizations.of(context)!.notesoff)));
                     });
                   },
                 ),
@@ -288,51 +297,30 @@ class RevPageState extends State<RevPage> {
                 itemCount: paragraphs.length,
                 itemScrollController: initialScrollController,
                 itemBuilder: (BuildContext context, int index) {
-                  return (refsAreOn)
-                      ? ListTile(
-                          title: Text(
-                            paragraphs[index].t, // with footnote links
-                            style: TextStyle(
-                                fontFamily:
-                                    fontsList[context.read<FontBloc>().state],
-                                fontStyle: (context.read<ItalicBloc>().state)
-                                    ? FontStyle.italic
-                                    : FontStyle.normal,
-                                fontSize: context.read<SizeBloc>().state),
-                          ),
-                          onTap: () {
-                            final model = BmModel(
-                                title: AppLocalizations.of(context)!.revelation,
-                                subtitle: paragraphs[index].t,
-                                doc: 1, // Prefrences
-                                page: 0, // not used
-                                para: index);
+                  String verseText = (refsAreOn)
+                      ? paragraphs[index].t
+                      : paragraphs[index].t.replaceAll(RegExp(r"\(\d+\)"), "");
+                  return ListTile(
+                    title: Text(
+                      verseText, // with footnote links
+                      style: TextStyle(
+                          fontFamily: fontsList[context.read<FontBloc>().state],
+                          fontStyle: (context.read<ItalicBloc>().state)
+                              ? FontStyle.italic
+                              : FontStyle.normal,
+                          fontSize: context.read<SizeBloc>().state),
+                    ),
+                    onTap: () {
+                      final model = BmModel(
+                          title: AppLocalizations.of(context)!.revelation,
+                          subtitle: paragraphs[index].t,
+                          doc: 1, // Prefrences
+                          page: 0, // not used
+                          para: index);
 
-                            showPopupMenu(context, model);
-                          },
-                        )
-                      : ListTile(
-                          title: Text(
-                            paragraphs[index].t.replaceAll(RegExp(r"\(\d+\)"), ""), // without footnote link
-                            style: TextStyle(
-                                fontFamily:
-                                    fontsList[context.read<FontBloc>().state],
-                                fontStyle: (context.read<ItalicBloc>().state)
-                                    ? FontStyle.italic
-                                    : FontStyle.normal,
-                                fontSize: context.read<SizeBloc>().state),
-                          ),
-                          onTap: () {
-                            final model = BmModel(
-                                title: AppLocalizations.of(context)!.revelation,
-                                subtitle: paragraphs[index].t,
-                                doc: 1, // Prefrences
-                                page: 0, // not used
-                                para: index);
-
-                            showPopupMenu(context, model);
-                          },
-                        );
+                      showPopupMenu(context, model);
+                    },
+                  );
                 },
               ),
             ),

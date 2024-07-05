@@ -1,11 +1,11 @@
 import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bkmarks/queries.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
+import 'package:revelation/main/page.dart';
 import 'package:revelation/utils/globals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 // Bookmarks
 
@@ -19,13 +19,13 @@ Future confirmDialog(BuildContext context, List list, int index) async {
           Text("${list[index].title}\n${list[index].subtitle}"), // subtitle
       actions: [
         TextButton(
-          child:
-              Text(AppLocalizations.of(context)!.yes, style: const TextStyle(fontWeight: FontWeight.bold)),
+          child: Text(AppLocalizations.of(context)!.yes,
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           onPressed: () => Navigator.of(context).pop(true),
         ),
         TextButton(
-          child:
-              Text(AppLocalizations.of(context)!.no, style: const TextStyle(fontWeight: FontWeight.bold)),
+          child: Text(AppLocalizations.of(context)!.no,
+              style: const TextStyle(fontWeight: FontWeight.bold)),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       ],
@@ -134,56 +134,49 @@ class BMMarksPageState extends State<BMMarksPage> {
                         // debugPrint(list[index].para.toString());
 
                         switch (list[index].doc) {
-                          case 1: // Westminster
+                          case 1:
 
+                          // Future.delayed(
+                          //   Duration(milliseconds: Globals.navigatorDelay),
+                          // () {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) =>
+                          //           ProofsPage(page: list[index].page),
+                          //     ),
+                          //   ).then(
+                          //     (value) {
+                          //       int c = 0;
+                          //       Navigator.of(context)
+                          //           .popUntil((route) => c++ >= 2);
+                          //     },
+                          //   );
+                          // },
+                          // () {
+                          //   Navigator.push(
+                          //      context,
+                          //      MaterialPageRoute(
+                          //        builder: (context) =>
+                          //            const ConfPage(),
+                          //      ),
+                          //   );
+                          // },
+                          //);
+                          //break;
+                          //case 2:
                             Future.delayed(
                               Duration(milliseconds: Globals.navigatorDelay),
-                              // () {
-                              //   Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           ProofsPage(page: list[index].page),
-                              //     ),
-                              //   ).then(
-                              //     (value) {
-                              //       int c = 0;
-                              //       Navigator.of(context)
-                              //           .popUntil((route) => c++ >= 2);
-                              //     },
-                              //   );
-                              // },
-                              // () {
-                              //   Navigator.push(
-                              //      context,
-                              //      MaterialPageRoute(
-                              //        builder: (context) =>
-                              //            const ConfPage(),
-                              //      ),
-                              //   );
-                              // },
+                              () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const RevPage(),
+                                  ),
+                                );
+                              },
                             );
                             break;
-
-                          case 2:
-                            // Future.delayed(
-                            //   Duration(milliseconds: Globals.navigatorDelay),
-                            //   () {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => const CreedsPage(),
-                            //       ),
-                            //     );
-                            //   },
-                            // );
-                            break;
-
-
-
-
-
-
                         }
                       },
                     ),
@@ -203,5 +196,4 @@ class BMMarksPageState extends State<BMMarksPage> {
   }
 }
 
-class ProofsPage {
-}
+class ProofsPage {}
