@@ -4,9 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class RevProvider {
-  final int newDbVerson = 1;
+  final int newDbVerson = 2;
 
   final String _dbName = Constants.revDatabase;
 

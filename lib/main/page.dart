@@ -299,7 +299,7 @@ class RevPageState extends State<RevPage> {
                 itemBuilder: (BuildContext context, int index) {
                   String verseText = (refsAreOn)
                       ? paragraphs[index].t
-                      : paragraphs[index].t.replaceAll(RegExp(r"\(\d+\)"), "");
+                      : paragraphs[index].t.replaceAll(RegExp('\\[.*?\\]'), "*");
                   return ListTile(
                     title: Text(
                       verseText, // with footnote links
