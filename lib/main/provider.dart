@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class RevProvider {
-  final int newDbVerson = 2;
+  final int newDbVerson = 1;
 
   final String _dbName = Constants.revDatabase;
 
