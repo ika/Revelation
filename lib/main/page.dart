@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:revelation/about/page.dart';
 import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bkmarks/page.dart';
@@ -144,11 +142,19 @@ class RevPageState extends State<RevPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FontsPage(),
+                      builder: (context) => const FontsPage()
                     ),
                   );
                 },
               );
+              // ).then(
+              //   (value) {
+              //     // pop and set state on main page
+              //     //int c = 1;
+              //     //Navigator.of(context).popUntil((route) => c++ == 2);
+              //     //setState(() {});
+              //   },
+              // );
             },
           ),
           ListTile(
@@ -239,9 +245,6 @@ class RevPageState extends State<RevPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final args =
-    //     ModalRoute.of(context)!.settings.arguments as PrefPageArguments;
-
     return FutureBuilder<List<Rev>>(
       future: revQueries.getRev(),
       builder: (context, AsyncSnapshot<List<Rev>> snapshot) {
@@ -299,7 +302,9 @@ class RevPageState extends State<RevPage> {
                 itemBuilder: (BuildContext context, int index) {
                   String verseText = (refsAreOn)
                       ? paragraphs[index].t
-                      : paragraphs[index].t.replaceAll(RegExp('\\[.*?\\]'), "*");
+                      : paragraphs[index]
+                          .t
+                          .replaceAll(RegExp('\\[.*?\\]'), "* ");
                   return ListTile(
                     title: Text(
                       verseText, // with footnote links

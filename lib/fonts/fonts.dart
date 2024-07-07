@@ -3,11 +3,11 @@ import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
 import 'package:revelation/bloc/bloc_size.dart';
 import 'package:revelation/fonts/list.dart';
+import 'package:revelation/main/page.dart';
 import 'package:revelation/utils/globals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 late int selectedFont;
 late int fontNumber;
@@ -240,7 +240,9 @@ class _FontsPageState extends State<FontsPage> {
           child: ListView.builder(
             itemCount: fontsList.length,
             itemBuilder: (BuildContext context, int index) {
-              String t = (italicIsOn) ? AppLocalizations.of(context)!.italic : AppLocalizations.of(context)!.normal;
+              String t = (italicIsOn)
+                  ? AppLocalizations.of(context)!.italic
+                  : AppLocalizations.of(context)!.normal;
               return ListTile(
                 title: Text("${fontsList[index]} $t",
                     style: TextStyle(
@@ -261,6 +263,15 @@ class _FontsPageState extends State<FontsPage> {
                 onTap: () {
                   fontNumber = index;
                   fontConfirmDialog(context);
+
+                  // fontConfirmDialog(context).then(
+                  //   (value) {
+                  //     // pop and set state on main page
+                  //     int c = 2;
+                  //     Navigator.of(context).popUntil((route) => c++ == 2);
+                  //     setState(() {});
+                  //   },
+                  // );
                 },
               );
             },
