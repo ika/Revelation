@@ -30,6 +30,12 @@ class _FontsPageState extends State<FontsPage> {
     textSize = context.read<SizeBloc>().state;
   }
 
+  final GlobalKey<RevPageState> textGlobalKey = GlobalKey<RevPageState>();
+
+  void updatePageStateFunc() {
+    textGlobalKey.currentState?.updatePageState();
+  }
+
   Future<dynamic> fontConfirmDialog(BuildContext context) {
     return showDialog(
       context: context,
@@ -57,6 +63,7 @@ class _FontsPageState extends State<FontsPage> {
                       context
                           .read<FontBloc>()
                           .add(UpdateFont(font: fontNumber));
+                      updatePageStateFunc();
                       Future.delayed(
                         Duration(milliseconds: Globals.navigatorDelay),
                         () {
@@ -95,6 +102,7 @@ class _FontsPageState extends State<FontsPage> {
 
   @override
   Widget build(BuildContext context) {
+    RevPage(key: textGlobalKey);
     return PopScope(
       canPop: false,
       child: Scaffold(

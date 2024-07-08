@@ -38,6 +38,11 @@ class RevPageState extends State<RevPage> {
 
   List<Rev> paragraphs = List<Rev>.empty();
 
+  void updatePageState() {
+    //setState(() {});
+    debugPrint("UPDATE STATE");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -141,9 +146,7 @@ class RevPageState extends State<RevPage> {
                 () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const FontsPage()
-                    ),
+                    MaterialPageRoute(builder: (context) => const FontsPage()),
                   );
                 },
               );
