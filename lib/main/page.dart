@@ -121,7 +121,6 @@ class RevPageState extends State<RevPage> {
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
                   Navigator.pushNamed(context, '/fonts').then((value) {
-                    //debugPrint('RETURNED');
                     setState(() {});
                   });
                 },
