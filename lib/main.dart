@@ -7,7 +7,6 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:revelation/about/page.dart';
 import 'package:revelation/bkmarks/page.dart';
-import 'package:revelation/bloc/bloc_chapters.dart';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
 import 'package:revelation/bloc/bloc_refs.dart';
@@ -64,9 +63,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<SizeBloc>(
           create: (context) => SizeBloc(),
         ),
-        BlocProvider<ChapterBloc>(
-          create: (context) => ChapterBloc(),
-        )
       ],
       child: BlocBuilder<ThemeBloc, bool>(
         builder: (context, state) {
