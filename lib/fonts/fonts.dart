@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
 import 'package:revelation/bloc/bloc_size.dart';
 import 'package:revelation/fonts/list.dart';
-import 'package:revelation/main/page.dart';
 import 'package:revelation/utils/globals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +28,6 @@ class _FontsPageState extends State<FontsPage> {
     selectedFont = context.read<FontBloc>().state;
     italicIsOn = context.read<ItalicBloc>().state;
     textSize = context.read<SizeBloc>().state;
-  }
-
-  final GlobalKey<RevPageState> textGlobalKey = GlobalKey<RevPageState>();
-
-  void updatePageStateFunc() {
-    textGlobalKey.currentState?.updatePageState();
   }
 
   Future<dynamic> fontConfirmDialog(BuildContext context) {
@@ -63,7 +57,6 @@ class _FontsPageState extends State<FontsPage> {
                       context
                           .read<FontBloc>()
                           .add(UpdateFont(font: fontNumber));
-                      updatePageStateFunc();
                       Future.delayed(
                         Duration(milliseconds: Globals.navigatorDelay),
                         () {
@@ -98,11 +91,10 @@ class _FontsPageState extends State<FontsPage> {
     );
   }
 
-  late String valueChosen;
+  //late String valueChosen;
 
   @override
   Widget build(BuildContext context) {
-    RevPage(key: textGlobalKey);
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -251,6 +243,7 @@ class _FontsPageState extends State<FontsPage> {
               String t = (italicIsOn)
                   ? AppLocalizations.of(context)!.italic
                   : AppLocalizations.of(context)!.normal;
+
               return ListTile(
                 title: Text("${fontsList[index]} $t",
                     style: TextStyle(
@@ -270,6 +263,7 @@ class _FontsPageState extends State<FontsPage> {
                 ),
                 onTap: () {
                   fontNumber = index;
+
                   fontConfirmDialog(context);
 
                   // fontConfirmDialog(context).then(

@@ -1,16 +1,12 @@
-import 'package:revelation/about/page.dart';
 import 'package:revelation/bkmarks/model.dart';
-import 'package:revelation/bkmarks/page.dart';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
 import 'package:revelation/bloc/bloc_refs.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/bloc/bloc_size.dart';
-import 'package:revelation/fonts/fonts.dart';
 import 'package:revelation/fonts/list.dart';
 import 'package:revelation/main/model.dart';
 import 'package:revelation/main/queries.dart';
-import 'package:revelation/theme/theme.dart';
 import 'package:revelation/utils/globals.dart';
 import 'package:revelation/utils/menu.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,11 +33,6 @@ class RevPageState extends State<RevPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Rev> paragraphs = List<Rev>.empty();
-
-  void updatePageState() {
-    //setState(() {});
-    debugPrint("UPDATE STATE");
-  }
 
   @override
   void initState() {
@@ -104,23 +95,13 @@ class RevPageState extends State<RevPage> {
             title: Text(
               AppLocalizations.of(context)!.bookmarks,
               style: Theme.of(context).textTheme.bodyLarge,
-              // style: TextStyle(
-              //   color: Colors.black87,
-              //   fontFamily: 'Raleway-Regular',
-              //   fontSize: 16,
-              // ),
             ),
             dense: true,
             onTap: () {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BMMarksPage(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/bookmarks');
                 },
               );
             },
@@ -133,31 +114,18 @@ class RevPageState extends State<RevPage> {
             title: Text(
               AppLocalizations.of(context)!.fonts,
               style: Theme.of(context).textTheme.bodyLarge,
-              // style: TextStyle(
-              //   color: Colors.black87,
-              //   fontFamily: 'Raleway-Regular',
-              //   fontSize: 16,
-              // ),
             ),
             dense: true,
             onTap: () {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const FontsPage()),
-                  );
+                  Navigator.pushNamed(context, '/fonts').then((value) {
+                    //debugPrint('RETURNED');
+                    setState(() {});
+                  });
                 },
               );
-              // ).then(
-              //   (value) {
-              //     // pop and set state on main page
-              //     //int c = 1;
-              //     //Navigator.of(context).popUntil((route) => c++ == 2);
-              //     //setState(() {});
-              //   },
-              // );
             },
           ),
           ListTile(
@@ -168,23 +136,13 @@ class RevPageState extends State<RevPage> {
             title: Text(
               AppLocalizations.of(context)!.theme,
               style: Theme.of(context).textTheme.bodyLarge,
-              // style: TextStyle(
-              //   color: Colors.black87,
-              //   fontFamily: 'Raleway-Regular',
-              //   fontSize: 16,
-              // ),
             ),
             dense: true,
             onTap: () {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ThemePage(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/theme');
                 },
               );
             },
@@ -197,23 +155,13 @@ class RevPageState extends State<RevPage> {
             title: Text(
               AppLocalizations.of(context)!.about,
               style: Theme.of(context).textTheme.bodyLarge,
-              // style: TextStyle(
-              //   color: Colors.black87,
-              //   fontFamily: 'Raleway-Regular',
-              //   fontSize: 16,
-              // ),
             ),
             dense: true,
             onTap: () {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AboutPage(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/about');
                 },
               );
             },
@@ -226,11 +174,6 @@ class RevPageState extends State<RevPage> {
             title: Text(
               AppLocalizations.of(context)!.share,
               style: Theme.of(context).textTheme.bodyLarge,
-              // style: TextStyle(
-              //   color: Colors.black87,
-              //   fontFamily: 'Raleway-Regular',
-              //   fontSize: 16,
-              // ),
             ),
             dense: true,
             onTap: () {
@@ -243,8 +186,6 @@ class RevPageState extends State<RevPage> {
       ),
     );
   }
-
-  showListTile() {}
 
   @override
   Widget build(BuildContext context) {

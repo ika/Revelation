@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bkmarks/queries.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
@@ -8,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Bookmarks
+
+final StreamController<int> _controller = StreamController<int>();
 
 final BMQueries bmQueries = BMQueries();
 
