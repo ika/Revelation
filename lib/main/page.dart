@@ -37,7 +37,7 @@ class RevPageState extends State<RevPage> {
   void initState() {
     super.initState();
 
-   // refsAreOn = context.read<RefsBloc>().state;
+    // refsAreOn = context.read<RefsBloc>().state;
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
@@ -101,6 +101,25 @@ class RevPageState extends State<RevPage> {
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
                   Navigator.pushNamed(context, '/bookmarks');
+                },
+              );
+            },
+          ),
+          ListTile(
+            trailing: Icon(
+              Icons.keyboard_double_arrow_right,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.chapters,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            dense: true,
+            onTap: () {
+              Future.delayed(
+                Duration(milliseconds: Globals.navigatorDelay),
+                () {
+                  Navigator.pushNamed(context, '/chapters');
                 },
               );
             },

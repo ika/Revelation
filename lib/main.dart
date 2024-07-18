@@ -9,10 +9,10 @@ import 'package:revelation/about/page.dart';
 import 'package:revelation/bkmarks/page.dart';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
-import 'package:revelation/bloc/bloc_refs.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/bloc/bloc_size.dart';
 import 'package:revelation/bloc/bloc_theme.dart';
+import 'package:revelation/chapters/page.dart';
 import 'package:revelation/fonts/fonts.dart';
 import 'package:revelation/main/page.dart';
 import 'package:revelation/theme/apptheme.dart';
@@ -83,6 +83,7 @@ class MyApp extends StatelessWidget {
             routes: {
               '/root': (context) => const RevPage(),
               '/bookmarks': (context) => const BMMarksPage(),
+              '/chapters': (context) => const CaMarksPage(),
               '/fonts': (context) => const FontsPage(),
               '/theme': (context) => const ThemePage(),
               '/about': (context) => const AboutPage()
