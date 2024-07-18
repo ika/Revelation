@@ -1,7 +1,6 @@
 import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
-import 'package:revelation/bloc/bloc_refs.dart';
 import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/bloc/bloc_size.dart';
 import 'package:revelation/fonts/list.dart';
@@ -38,7 +37,7 @@ class RevPageState extends State<RevPage> {
   void initState() {
     super.initState();
 
-    refsAreOn = context.read<RefsBloc>().state;
+   // refsAreOn = context.read<RefsBloc>().state;
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
@@ -198,24 +197,24 @@ class RevPageState extends State<RevPage> {
             appBar: AppBar(
               centerTitle: true,
               elevation: 5,
-              actions: [
-                Switch(
-                  value: refsAreOn,
-                  onChanged: (bool value) {
-                    context.read<RefsBloc>().add(ChangeRefs(refsAreOn: value));
-                    setState(() {
-                      refsAreOn = value;
-                      (refsAreOn)
-                          ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content:
-                                  Text(AppLocalizations.of(context)!.noteson)))
-                          : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  AppLocalizations.of(context)!.notesoff)));
-                    });
-                  },
-                ),
-              ],
+              // actions: [
+              //   Switch(
+              //     value: refsAreOn,
+              //     onChanged: (bool value) {
+              //       context.read<RefsBloc>().add(ChangeRefs(refsAreOn: value));
+              //       setState(() {
+              //         refsAreOn = value;
+              //         (refsAreOn)
+              //             ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //                 content:
+              //                     Text(AppLocalizations.of(context)!.noteson)))
+              //             : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //                 content: Text(
+              //                     AppLocalizations.of(context)!.notesoff)));
+              //       });
+              //     },
+              //   ),
+              // ],
               leading: GestureDetector(
                 child: IconButton(
                   icon: const Icon(Icons.menu),
@@ -243,11 +242,12 @@ class RevPageState extends State<RevPage> {
                 itemCount: paragraphs.length,
                 itemScrollController: initialScrollController,
                 itemBuilder: (BuildContext context, int index) {
-                  String verseText = (refsAreOn)
-                      ? paragraphs[index].t
-                      : paragraphs[index]
-                          .t
-                          .replaceAll(RegExp('\\[.*?\\]'), "* ");
+                  String verseText = paragraphs[index].t;
+                  // String verseText = (refsAreOn)
+                  //     ? paragraphs[index].t
+                  //     : paragraphs[index]
+                  //         .t
+                  //         .replaceAll(RegExp('\\[.*?\\]'), "* ");
                   return ListTile(
                     title: Text(
                       verseText, // with footnote links

@@ -99,7 +99,7 @@ class _FontsPageState extends State<FontsPage> {
       canPop: false,
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+         // centerTitle: true,
           elevation: 5,
           leading: GestureDetector(
             child: const Icon(Icons.arrow_back),

@@ -201,7 +201,7 @@ foreach ($array as $part ){
 
 
     // Replace multiple spaces with one
-    //$data['t'] = preg_replace('!\s+!', ' ', $data['t']);
+    $data[0] = preg_replace('!\s+!', ' ', $data[0]);
 
     (!$install)
       ? print($data[0])

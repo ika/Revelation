@@ -45,9 +45,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<RefsBloc>(
-          create: (context) => RefsBloc(),
-        ),
+        // BlocProvider<RefsBloc>(
+        //   create: (context) => RefsBloc(),
+        // ),
         BlocProvider<ScrollBloc>(
           create: (context) => ScrollBloc(),
         ),
