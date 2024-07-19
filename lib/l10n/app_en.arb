@@ -15,7 +15,7 @@
   "copied":"Text Copied",
   "size": "Text Size",
   "example": "In the Beginning",
-  "share": "Share this App",
+  "share": "Share",
   "withoutrefs": "Without references",
   "withrefs": "With references",
   "yes": "Yes",
@@ -39,5 +39,6 @@
   "light": "Light",
   "dark": "Dark",
   "noteson": "Footnotes are on",
-  "notesoff": "Footnotes are off"
+  "notesoff": "Footnotes are off",
+  "search": "Search"
 }

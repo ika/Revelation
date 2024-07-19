@@ -130,6 +130,25 @@ class RevPageState extends State<RevPage> {
               color: Theme.of(context).colorScheme.primary,
             ),
             title: Text(
+              AppLocalizations.of(context)!.search,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            dense: true,
+            onTap: () {
+              Future.delayed(
+                Duration(milliseconds: Globals.navigatorDelay),
+                () {
+                  Navigator.pushNamed(context, '/search');
+                },
+              );
+            },
+          ),
+          ListTile(
+            trailing: Icon(
+              Icons.keyboard_double_arrow_right,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            title: Text(
               AppLocalizations.of(context)!.fonts,
               style: Theme.of(context).textTheme.bodyLarge,
             ),

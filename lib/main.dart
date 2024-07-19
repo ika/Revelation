@@ -15,6 +15,7 @@ import 'package:revelation/bloc/bloc_theme.dart';
 import 'package:revelation/chapters/page.dart';
 import 'package:revelation/fonts/fonts.dart';
 import 'package:revelation/main/page.dart';
+import 'package:revelation/search/search.dart';
 import 'package:revelation/theme/apptheme.dart';
 import 'package:revelation/theme/theme.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -86,7 +87,8 @@ class MyApp extends StatelessWidget {
               '/chapters': (context) => const CaMarksPage(),
               '/fonts': (context) => const FontsPage(),
               '/theme': (context) => const ThemePage(),
-              '/about': (context) => const AboutPage()
+              '/about': (context) => const AboutPage(),
+              '/search': (context) => const SearchPage()
             },
           );
         },
