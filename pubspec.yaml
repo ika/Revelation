@@ -67,6 +67,7 @@ flutter:
   assets:
     - assets/rev.db
     - assets/about.db
+    - assets/chaps.db
 
   fonts:
     - family: OpenSans

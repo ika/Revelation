@@ -3,11 +3,11 @@ class Constants {
   static const String bmarksDatabase = "bmarks.db";
   static const String aboutDatabase = "about.db";
   static const String revDatabase = "rev.db";
-  static const String chapDatabase = "chap.db";
+  static const String chapsDatabase = "chaps.db";
 
   // table names
   static const String bmarksTable = "bmarks";
   static const String aboutTable = "about";
   static const String revTable = "rev";
-  static const String chapTable = "chap";
+  static const String chapsTable = "chaps";
 }

@@ -80,108 +80,58 @@ class CaMarksPageState extends State<CaMarksPage> {
               child: ListView.separated(
                 itemCount: list.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onHorizontalDragEnd: (DragEndDetails details) {
-                      if (details.primaryVelocity! > 0 ||
-                          details.primaryVelocity! < 0) {
-                        confirmDialog(context, list, index).then((value) {
-                          if (value) {
-                            caQueries
-                                .deleteChapter(list[index].id!)
-                                .then((value) {
-                              setState(() {});
-                            });
-                          }
-                        });
-                      }
-                    },
-                    child: ListTile(
-                      // contentPadding: const EdgeInsets.symmetric(
-                      //     horizontal: 20.0, vertical: 10.0),
-                      title: Text(
-                        list[index].title,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      subtitle: Row(
-                        children: [
-                          Icon(Icons.linear_scale,
-                              color: Theme.of(context).colorScheme.primary),
-                          Flexible(
-                            child: RichText(
-                              overflow: TextOverflow.ellipsis,
-                              //strutStyle: const StrutStyle(fontSize: 12.0),
-                              text: TextSpan(
-                                text: " ${list[index].subtitle}",
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
+                  return ListTile(
+                    // contentPadding: const EdgeInsets.symmetric(
+                    //     horizontal: 20.0, vertical: 10.0),
+                    title: Text(
+                      list[index].title,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    subtitle: Row(
+                      children: [
+                        Icon(Icons.linear_scale,
+                            color: Theme.of(context).colorScheme.primary),
+                        Flexible(
+                          child: RichText(
+                            overflow: TextOverflow.ellipsis,
+                            //strutStyle: const StrutStyle(fontSize: 12.0),
+                            text: TextSpan(
+                              text: " ${list[index].subtitle}",
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
-                        ],
-                      ),
-                      trailing: Icon(Icons.keyboard_arrow_right,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 20.0),
-                      onTap: () {
-                        // update scroll
-                        context.read<ScrollBloc>().add(
-                              UpdateScroll(index: list[index].para),
-                            );
-
-                        // pop before return
-                        int c = 0;
-                        Navigator.of(context).popUntil((route) => c++ == 2);
-
-                        // debugPrint(list[index].doc.toString());
-                        // debugPrint(list[index].page.toString());
-                        // debugPrint(list[index].para.toString());
-
-                        switch (list[index].doc) {
-                          case 1:
-
-                          // Future.delayed(
-                          //   Duration(milliseconds: Globals.navigatorDelay),
-                          // () {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           ProofsPage(page: list[index].page),
-                          //     ),
-                          //   ).then(
-                          //     (value) {
-                          //       int c = 0;
-                          //       Navigator.of(context)
-                          //           .popUntil((route) => c++ >= 2);
-                          //     },
-                          //   );
-                          // },
-                          // () {
-                          //   Navigator.push(
-                          //      context,
-                          //      MaterialPageRoute(
-                          //        builder: (context) =>
-                          //            const ConfPage(),
-                          //      ),
-                          //   );
-                          // },
-                          //);
-                          //break;
-                          //case 2:
-                            Future.delayed(
-                              Duration(milliseconds: Globals.navigatorDelay),
-                              () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const RevPage(),
-                                  ),
-                                );
-                              },
-                            );
-                            break;
-                        }
-                      },
+                        ),
+                      ],
                     ),
+                    trailing: Icon(Icons.keyboard_arrow_right,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 20.0),
+                    onTap: () {
+                      // update scroll
+                      context.read<ScrollBloc>().add(
+                            UpdateScroll(index: list[index].para),
+                          );
+                  
+                      // pop before return
+                      int c = 0;
+                      Navigator.of(context).popUntil((route) => c++ == 2);
+                  
+                      switch (list[index].doc) {
+                        case 1:
+                          Future.delayed(
+                            Duration(milliseconds: Globals.navigatorDelay),
+                            () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RevPage(),
+                                ),
+                              );
+                            },
+                          );
+                          break;
+                      }
+                    },
                   );
                 },
                 separatorBuilder: (context, index) {

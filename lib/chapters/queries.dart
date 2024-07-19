@@ -10,7 +10,7 @@ import 'package:sqflite/sqflite.dart';
 
 class CaQueries {
   final CaProvider provider = CaProvider();
-  final String _dbTable = Constants.chapTable;
+  final String _dbTable = Constants.chapsTable;
 
   Future<void> saveBookMark(CaModel model) async {
     final db = await provider.database;
@@ -33,7 +33,7 @@ class CaQueries {
     final db = await provider.database;
 
     final List<Map<String, dynamic>> maps =
-        await db.rawQuery("SELECT * FROM $_dbTable ORDER BY id DESC");
+        await db.rawQuery("SELECT * FROM $_dbTable ORDER BY id ASC");
 
     List<CaModel> list = maps.isNotEmpty
         ? List.generate(

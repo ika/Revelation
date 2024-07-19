@@ -1,15 +1,15 @@
+import 'dart:io';
 import 'package:revelation/utils/const.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 
 // Chapters
 
 class CaProvider {
   final int newDbVerson = 1;
 
-  final String _dbName = Constants.chapDatabase;
-  final String _dbTable = Constants.chapTable;
+  final String _dbName = Constants.chapsDatabase;
 
   CaProvider.internal();
 
@@ -35,23 +35,18 @@ class CaProvider {
       db.close();
       await deleteDatabase(path);
 
-      db = await openDatabase(
-        path,
-        version: newDbVerson,
-        onOpen: (db) async {},
-        onCreate: (Database db, int version) async {
-          await db.execute('''
-                CREATE TABLE IF NOT EXISTS $_dbTable (
-                    id INTEGER PRIMARY KEY,
-                    title TEXT DEFAULT '',
-                    subtitle TEXT DEFAULT '',
-                    doc INTEGER DEFAULT 0,
-                    page INTEGER DEFAULT 0,
-                    para INTEGER DEFAULT 0
-                )
-            ''');
-        },
-      );
+      try {
+        await Directory(dirname(path)).create(recursive: true);
+      } catch (_) {}
+
+      ByteData data = await rootBundle.load(join("assets", _dbName));
+      List<int> bytes =
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      await File(path).writeAsBytes(bytes, flush: true);
+
+      db = await openDatabase(path);
+
+      db.setVersion(newDbVerson);
     }
     return db;
   }
