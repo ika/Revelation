@@ -6,7 +6,6 @@ RevProvider revProvider = RevProvider();
 const String _dbTable = Constants.revTable;
 
 class RevQueries {
-
   Future<List<Rev>> getRev() async {
     final db = await revProvider.database;
 
@@ -42,6 +41,24 @@ class RevQueries {
       list.insert(0, heading);
       list.insertAll(list.length, addedLines); // add empty lines
     }
+
+    return list;
+  }
+
+  Future<List<Rev>> getSearchedValues(
+      String search) async {
+    final db = await revProvider.database;
+
+    List<Rev> returnList = [];
+    final defList = Rev(id: 0, t: 'No search results.');
+    returnList.add(defList);
+
+    var res = await db.rawQuery(
+        '''SELECT * FROM $_dbTable WHERE t LIKE '%$search%' ORDER BY id ASC''');
+
+    List<Rev> list = res.isNotEmpty
+        ? res.map((tableName) => Rev.fromJson(tableName)).toList()
+        : returnList;
 
     return list;
   }
