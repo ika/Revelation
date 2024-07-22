@@ -114,7 +114,7 @@ class SearchPage extends StatefulWidget {
 //   //         padding: const EdgeInsets.all(50.0),
 //   //         child: Column(
 //   //           children: [
-//   //             TextFormField(
+//   //           TextFormField  (
 //   //               initialValue: '',
 //   //               maxLength: 40,
 //   //               maxLines: 1,
