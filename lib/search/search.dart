@@ -53,8 +53,7 @@ class SearchPageState extends State<SearchPage> {
               onChanged: (value) {
                 contents = value;
                 debugPrint(contents);
-              },
-              
+              },  
             ),
             const SizedBox(
               height: 20,
@@ -91,55 +90,5 @@ class SearchPageState extends State<SearchPage> {
     );
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return FutureBuilder<List<Rev>>(
-  //     future: RevQueries().getSearchedValues('lamb'),
-  //     builder: (context, AsyncSnapshot<List<Rev>> snapshot) {
-  //       if (snapshot.hasData) {
-  //         list = snapshot.data!;
-  //         return Scaffold(
-  //           appBar: AppBar(
-  //             centerTitle: true,
-  //             elevation: 5,
-  //             title: Text(
-  //               AppLocalizations.of(context)!.search,
-  //               style: const TextStyle(fontWeight: FontWeight.w700),
-  //             ),
-  //             leading: GestureDetector(
-  //               child: const Icon(Icons.arrow_back),
-  //               onTap: () {
-  //                 Future.delayed(
-  //                   Duration(milliseconds: Globals.navigatorDelay),
-  //                   () {
-  //                     Navigator.of(context).pop();
-  //                   },
-  //                 );
-  //               },
-  //             ),
-  //           ),
-  //           body: Padding(
-  //             padding: const EdgeInsets.all(8.0),
-  //             child: ListView.separated(
-  //               itemCount: list.length,
-  //               itemBuilder: (BuildContext context, int index) {
-  //                 return ListTile(
-  //                   title: Text(
-  //                     list[index].t,
-  //                     style: Theme.of(context).textTheme.bodyMedium,
-  //                   ),
-  //                 );
-  //               },
-  //               separatorBuilder: (context, index) {
-  //                 return const Divider();
-  //               },
-  //             ),
-  //           ),
-  //         );
-  //       } else {
-  //         return const CircularProgressIndicator();
-  //       }
-  //     },
-  //   );
-  // }
+ 
 }
