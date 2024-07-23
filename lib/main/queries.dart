@@ -45,8 +45,7 @@ class RevQueries {
     return list;
   }
 
-  Future<List<Rev>> getSearchedValues(
-      String search) async {
+  Future<List<Rev>> getSearchedValues(String search) async {
     final db = await revProvider.database;
 
     List<Rev> returnList = [];
