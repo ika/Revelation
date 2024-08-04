@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class AboutProvider {
   final int newDbVerson = 1;
 
