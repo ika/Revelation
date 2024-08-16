@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:revelation/bloc/bloc_font.dart';
+import 'package:revelation/bloc/bloc_italic.dart';
+import 'package:revelation/bloc/bloc_size.dart';
+import 'package:revelation/fonts/list.dart';
 import 'package:revelation/main/model.dart';
 import 'package:revelation/main/queries.dart';
 import 'package:revelation/utils/globals.dart';
@@ -67,45 +72,57 @@ class SearchPageState extends State<SearchPage> {
     );
   }
 
-  RichText highLiteSearchWord(String t, String m) {
+  RichText highLiteSearchWord(String t, String m, BuildContext context) {
     int idx = t.toLowerCase().indexOf(m.toLowerCase());
 
     if (idx != -1) {
       return RichText(
-        //softWrap: true,
         text: TextSpan(
           text: t.substring(0, idx),
-          style: Theme.of(context).textTheme.bodyMedium,
-          // style: TextStyle(
-          //   color: Theme.of(context).colorScheme.primary,
-          // ),
+          style: TextStyle(
+              fontFamily: fontsList[context.read<FontBloc>().state],
+              fontStyle: (context.read<ItalicBloc>().state)
+                  ? FontStyle.italic
+                  : FontStyle.normal,
+              fontSize: context.read<SizeBloc>().state,
+              color: Theme.of(context).colorScheme.primary),
           children: [
             TextSpan(
               text: t.substring(idx, idx + m.length),
-              //style: Theme.of(context).textTheme.bodyMedium,
               style: TextStyle(
-                //fontWeight: FontWeight.w700
-                //color: Theme.of(context).colorScheme.primary
+                fontFamily: fontsList[context.read<FontBloc>().state],
+                fontStyle: (context.read<ItalicBloc>().state)
+                    ? FontStyle.italic
+                    : FontStyle.normal,
+                fontSize: context.read<SizeBloc>().state,
+                color: Theme.of(context).colorScheme.primary,
                 backgroundColor: Theme.of(context).colorScheme.errorContainer,
               ),
             ),
             TextSpan(
               text: t.substring(idx + m.length),
-              style: Theme.of(context).textTheme.bodyMedium,
-              //style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              style: TextStyle(
+                  fontFamily: fontsList[context.read<FontBloc>().state],
+                  fontStyle: (context.read<ItalicBloc>().state)
+                      ? FontStyle.italic
+                      : FontStyle.normal,
+                  fontSize: context.read<SizeBloc>().state,
+                  color: Theme.of(context).colorScheme.primary),
             ),
           ],
         ),
       );
     } else {
       return RichText(
-        //softWrap: true,
         text: TextSpan(
           text: t,
-          style: const TextStyle(
-            //fontSize: primaryTextSize,
-            color: Colors.black,
-          ),
+          style: TextStyle(
+              fontFamily: fontsList[context.read<FontBloc>().state],
+              fontStyle: (context.read<ItalicBloc>().state)
+                  ? FontStyle.italic
+                  : FontStyle.normal,
+              fontSize: context.read<SizeBloc>().state,
+              color: Theme.of(context).colorScheme.primary),
         ),
       );
     }
@@ -134,61 +151,65 @@ class SearchPageState extends State<SearchPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Search...',
-                suffixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                      (contents.isEmpty)
-                          ? emptyInputDialog(context)
-                          : runFilter(contents);
-                    }),
+        padding: const EdgeInsets.all(16.0),
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
               ),
-              // onTap: () {
-              //   filteredSearch = Future.value([]);
-              // },
-              onChanged: (value) {
-                contents = value;
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: FutureBuilder<List<Rev>>(
-                future: filteredSearch,
-                builder: (context, AsyncSnapshot<List<Rev>> snapshot) {
-                  if (snapshot.hasData) {
-                    list = snapshot.data!;
-                    return ListView.separated(
-                      itemCount: list.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text(
-                            list[index].t,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
-                    );
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Search...',
+                  suffixIcon: IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        (contents.isEmpty)
+                            ? emptyInputDialog(context)
+                            : runFilter(contents);
+                      }),
+                ),
+                // onTap: () {
+                //   filteredSearch = Future.value([]);
+                // },
+                onChanged: (value) {
+                  contents = value;
                 },
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: FutureBuilder<List<Rev>>(
+                  future: filteredSearch,
+                  builder: (context, AsyncSnapshot<List<Rev>> snapshot) {
+                    if (snapshot.hasData) {
+                      list = snapshot.data!;
+                      return ListView.separated(
+                        itemCount: list.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            // title: Text()
+                            subtitle: highLiteSearchWord(
+                                list[index].t, contents, context),
+                            onTap: () {
+                              debugPrint("on tap");
+                            },
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                      );
+                    } else {
+                      return const CircularProgressIndicator();
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
