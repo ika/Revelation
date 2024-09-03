@@ -8,7 +8,6 @@ import 'package:revelation/utils/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 // About
 
 AbQueries abQueries = AbQueries();
@@ -51,7 +50,9 @@ class AboutPageState extends State<AboutPage> {
                     Future.delayed(
                       Duration(milliseconds: Globals.navigatorDelay),
                       () {
-                        Navigator.pop(context);
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
                       },
                     );
                   },

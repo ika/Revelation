@@ -37,30 +37,35 @@ class RevPageState extends State<RevPage> {
   void initState() {
     super.initState();
 
-    // refsAreOn = context.read<RefsBloc>().state;
+    // get scroll position
+    int scrollBlocState = context.read<ScrollBloc>().state;
+
+    // reset scrolling
+    context.read<ScrollBloc>().add(
+          UpdateScroll(index: 0),
+        );
 
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        Future.delayed(Duration(milliseconds: Globals.navigatorLongDelay), () {
-          if (initialScrollController.isAttached) {
-            initialScrollController.scrollTo(
-              index: context.read<ScrollBloc>().state,
-              duration: Duration(milliseconds: Globals.navigatorLongDelay),
-              curve: Curves.easeInOutCubic,
-            );
-            // reset scroll index
-            context.read<ScrollBloc>().add(
-                  UpdateScroll(index: 0),
-                );
-          } else {
-            debugPrint("initialScrollController in NOT attached");
-          }
-        });
+        Future.delayed(
+          Duration(milliseconds: Globals.navigatorLongDelay),
+          () {
+            if (initialScrollController.isAttached) {
+              initialScrollController.scrollTo(
+                index: scrollBlocState,
+                duration: Duration(milliseconds: Globals.navigatorLongDelay),
+                curve: Curves.easeInOutCubic,
+              );
+              //} else {
+              // debugPrint("initialScrollController in NOT attached");
+            }
+          },
+        );
       },
     );
   }
 
-  drawerCode() {
+  drawerCode(BuildContext context) {
     return Drawer(
       //backgroundColor: Theme.of(context).drawerTheme.backgroundColor,
       child: ListView(
@@ -100,7 +105,9 @@ class RevPageState extends State<RevPage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.pushNamed(context, '/bookmarks');
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/bookmarks');
+                  }
                 },
               );
             },
@@ -119,7 +126,9 @@ class RevPageState extends State<RevPage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.pushNamed(context, '/chapters');
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/chapters');
+                  }
                 },
               );
             },
@@ -138,7 +147,9 @@ class RevPageState extends State<RevPage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.pushNamed(context, '/search');
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/search');
+                  }
                 },
               );
             },
@@ -157,9 +168,11 @@ class RevPageState extends State<RevPage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.pushNamed(context, '/fonts').then((value) {
-                    setState(() {});
-                  });
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/fonts').then((value) {
+                      setState(() {});
+                    });
+                  }
                 },
               );
             },
@@ -178,7 +191,9 @@ class RevPageState extends State<RevPage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.pushNamed(context, '/theme');
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/theme');
+                  }
                 },
               );
             },
@@ -197,7 +212,9 @@ class RevPageState extends State<RevPage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.pushNamed(context, '/about');
+                  if (context.mounted) {
+                    Navigator.pushNamed(context, '/about');
+                  }
                 },
               );
             },
@@ -273,7 +290,7 @@ class RevPageState extends State<RevPage> {
                   // ),
                   ),
             ),
-            drawer: drawerCode(),
+            drawer: drawerCode(context),
             body: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ScrollablePositionedList.builder(

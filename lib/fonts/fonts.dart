@@ -99,7 +99,7 @@ class _FontsPageState extends State<FontsPage> {
       canPop: false,
       child: Scaffold(
         appBar: AppBar(
-         // centerTitle: true,
+          // centerTitle: true,
           elevation: 5,
           leading: GestureDetector(
             child: const Icon(Icons.arrow_back),
@@ -108,7 +108,9 @@ class _FontsPageState extends State<FontsPage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.of(context).pop();
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
                 },
               );
             },

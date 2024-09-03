@@ -59,7 +59,9 @@ class SearchPageState extends State<SearchPage> {
         // Schedule a delayed dismissal of the alert dialog after 3 seconds
         Future.delayed(Duration(milliseconds: Globals.navigatorDialogDelay),
             () {
-          Navigator.of(context).pop(); // Close the dialog
+          if (context.mounted) {
+            Navigator.of(context).pop(); // Close the dialog
+          }
         });
 
         return const AlertDialog(
@@ -145,7 +147,9 @@ class SearchPageState extends State<SearchPage> {
             Future.delayed(
               Duration(milliseconds: Globals.navigatorDelay),
               () {
-                Navigator.of(context).pop();
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
               },
             );
           },
@@ -163,13 +167,14 @@ class SearchPageState extends State<SearchPage> {
                 decoration: InputDecoration(
                   labelText: 'Search...',
                   suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        (contents.isEmpty)
-                            ? emptyInputDialog(context)
-                            : runFilter(contents);
-                      }),
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      (contents.isEmpty)
+                          ? emptyInputDialog(context)
+                          : runFilter(contents);
+                    },
+                  ),
                 ),
                 // onTap: () {
                 //   filteredSearch = Future.value([]);
@@ -195,16 +200,17 @@ class SearchPageState extends State<SearchPage> {
                             subtitle: highLiteSearchWord(
                                 list[index].t, contents, context),
                             onTap: () {
-                              //debugPrint(list[index].id.toString());
-                              // update scroll
                               context.read<ScrollBloc>().add(
                                     UpdateScroll(index: list[index].id),
                                   );
+                              //Navigator.pushNamed(context, '/root');
 
                               Future.delayed(
                                 Duration(milliseconds: Globals.navigatorDelay),
                                 () {
-                                  Navigator.pushNamed(context, '/root');
+                                  if (context.mounted) {
+                                    Navigator.pushNamed(context, '/root');
+                                  }
                                 },
                               );
                             },

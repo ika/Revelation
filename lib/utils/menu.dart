@@ -20,22 +20,27 @@ Future<dynamic> showPopupMenu(BuildContext context, BmModel model) async {
         onTap: () {
           bmQueries.getBookMarkExists(model.doc, model.page, model.para).then(
             (value) {
-              (value < 1)
-                  ? bmQueries.saveBookMark(model).then((value) {
-                      Future.delayed(
-                          Duration(microseconds: Globals.navigatorDelay), () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(AppLocalizations.of(context)!.added),
-                          ),
+              if (context.mounted) {
+                (value < 1)
+                    ? bmQueries.saveBookMark(model).then((value) {
+                        Future.delayed(
+                          Duration(microseconds: Globals.navigatorDelay),
+                          () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text(AppLocalizations.of(context)!.added),
+                              ),
+                            );
+                          },
                         );
-                      });
-                    })
-                  : ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizations.of(context)!.exists),
-                      ),
-                    );
+                      })
+                    : ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppLocalizations.of(context)!.exists),
+                        ),
+                      );
+              }
             },
           );
         },
@@ -50,16 +55,22 @@ Future<dynamic> showPopupMenu(BuildContext context, BmModel model) async {
 
           Clipboard.setData(
             ClipboardData(text: sb.toString()),
-          ).then((_) {
-            Future.delayed(Duration(milliseconds: Globals.navigatorLongDelay),
+          ).then(
+            (_) {
+              Future.delayed(
+                Duration(milliseconds: Globals.navigatorLongDelay),
                 () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppLocalizations.of(context)!.copied),
-                ),
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(AppLocalizations.of(context)!.copied),
+                      ),
+                    );
+                  }
+                },
               );
-            });
-          });
+            },
+          );
         },
       ),
     ],

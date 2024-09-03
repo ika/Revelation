@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class ThemePage extends StatefulWidget {
   const ThemePage({super.key});
 
@@ -28,12 +27,15 @@ class ThemePageState extends State<ThemePage> {
               Future.delayed(
                 Duration(milliseconds: Globals.navigatorDelay),
                 () {
-                  Navigator.of(context).pop();
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
                 },
               );
             },
           ),
-          title: Text(AppLocalizations.of(context)!.switcher, style: const TextStyle(fontWeight: FontWeight.w700)),
+          title: Text(AppLocalizations.of(context)!.switcher,
+              style: const TextStyle(fontWeight: FontWeight.w700)),
           // actions: [
           //   Switch(
           //     value: (context.read<ThemeBloc>()) ? true : false,
@@ -55,14 +57,16 @@ class ThemePageState extends State<ThemePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FilledButton(
-                    onPressed: () =>
-                        context.read<ThemeBloc>().add(ChangeTheme(isDark:  false)),
+                    onPressed: () => context
+                        .read<ThemeBloc>()
+                        .add(ChangeTheme(isDark: false)),
                     child: Text(AppLocalizations.of(context)!.light),
                   ),
                   const SizedBox(width: 10),
                   FilledButton(
-                    onPressed: () =>
-                        context.read<ThemeBloc>().add(ChangeTheme(isDark:  true)),
+                    onPressed: () => context
+                        .read<ThemeBloc>()
+                        .add(ChangeTheme(isDark: true)),
                     child: Text(AppLocalizations.of(context)!.dark),
                   ),
                 ],

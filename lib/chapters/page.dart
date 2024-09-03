@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/chapters/model.dart';
 import 'package:revelation/chapters/queries.dart';
-import 'package:revelation/main/page.dart';
 import 'package:revelation/utils/globals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +65,9 @@ class CaMarksPageState extends State<CaMarksPage> {
                     Future.delayed(
                       Duration(milliseconds: Globals.navigatorDelay),
                       () {
-                        Navigator.pop(context);
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
                       },
                     );
                   },
@@ -111,17 +112,19 @@ class CaMarksPageState extends State<CaMarksPage> {
                       context.read<ScrollBloc>().add(
                             UpdateScroll(index: list[index].para),
                           );
-                  
+
                       // pop before return
                       // int c = 0;
                       // Navigator.of(context).popUntil((route) => c++ == 2);
-                  
+
                       switch (list[index].doc) {
                         case 1:
                           Future.delayed(
                             Duration(milliseconds: Globals.navigatorDelay),
                             () {
-                              Navigator.pushNamed(context, '/root');
+                              if (context.mounted) {
+                                Navigator.pushNamed(context, '/root');
+                              }
                             },
                           );
                           break;
