@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:revelation/bloc/bloc_font.dart';
 import 'package:revelation/bloc/bloc_italic.dart';
+import 'package:revelation/bloc/bloc_scroll.dart';
 import 'package:revelation/bloc/bloc_size.dart';
 import 'package:revelation/fonts/list.dart';
 import 'package:revelation/main/model.dart';
@@ -194,7 +195,18 @@ class SearchPageState extends State<SearchPage> {
                             subtitle: highLiteSearchWord(
                                 list[index].t, contents, context),
                             onTap: () {
-                              debugPrint("on tap");
+                              //debugPrint(list[index].id.toString());
+                              // update scroll
+                              context.read<ScrollBloc>().add(
+                                    UpdateScroll(index: list[index].id),
+                                  );
+
+                              Future.delayed(
+                                Duration(milliseconds: Globals.navigatorDelay),
+                                () {
+                                  Navigator.pushNamed(context, '/root');
+                                },
+                              );
                             },
                           );
                         },

@@ -79,7 +79,6 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: state ? ThemeMode.light : ThemeMode.dark,
-            //home: const RevPage(),
             initialRoute: '/root',
             routes: {
               '/root': (context) => const RevPage(),

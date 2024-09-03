@@ -130,8 +130,8 @@ class BMMarksPageState extends State<BMMarksPage> {
                             );
 
                         // pop before return
-                        int c = 0;
-                        Navigator.of(context).popUntil((route) => c++ == 2);
+                        // int c = 0;
+                        // Navigator.of(context).popUntil((route) => c++ == 2);
 
                         // debugPrint(list[index].doc.toString());
                         // debugPrint(list[index].page.toString());
@@ -172,12 +172,7 @@ class BMMarksPageState extends State<BMMarksPage> {
                             Future.delayed(
                               Duration(milliseconds: Globals.navigatorDelay),
                               () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const RevPage(),
-                                  ),
-                                );
+                                Navigator.pushNamed(context, '/root');
                               },
                             );
                             break;

@@ -113,20 +113,15 @@ class CaMarksPageState extends State<CaMarksPage> {
                           );
                   
                       // pop before return
-                      int c = 0;
-                      Navigator.of(context).popUntil((route) => c++ == 2);
+                      // int c = 0;
+                      // Navigator.of(context).popUntil((route) => c++ == 2);
                   
                       switch (list[index].doc) {
                         case 1:
                           Future.delayed(
                             Duration(milliseconds: Globals.navigatorDelay),
                             () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const RevPage(),
-                                ),
-                              );
+                              Navigator.pushNamed(context, '/root');
                             },
                           );
                           break;
