@@ -9,6 +9,7 @@ This text was translated from the Nova Vulgata, taking other translations into c
 # Privacy Policy
 
 This app does not record any user information at all. No registration is required. No Internet connections is needed once the app is installed. 
+https://sites.google.com/view/revelation-privacy/home
 
 
 # Licence
