@@ -6,14 +6,11 @@ import 'package:sqflite/sqflite.dart';
 
 class RevProvider {
   final int newDbVerson = 1;
-
   final String _dbName = Constants.revDatabase;
 
   RevProvider.internal();
-
-  static dynamic _database;
-
   static final RevProvider _instance = RevProvider.internal();
+  static Database? _database;
 
   factory RevProvider() => _instance;
 
@@ -26,13 +23,7 @@ class RevProvider {
     var databasesPath = await getDatabasesPath();
     var path = join(databasesPath, _dbName);
 
-    Database db = await openDatabase(path);
-
-    // not exists returns zero
-    if (await db.getVersion() < newDbVerson) {
-      db.close();
-      await deleteDatabase(path);
-
+    if (!await databaseExists(path)) {
       try {
         await Directory(dirname(path)).create(recursive: true);
       } catch (_) {}
@@ -41,11 +32,9 @@ class RevProvider {
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
-
-      db = await openDatabase(path);
-
-      db.setVersion(newDbVerson);
     }
+
+    Database db = await openDatabase(path);
     return db;
   }
 

@@ -5,7 +5,6 @@ import 'package:revelation/utils/const.dart';
 import 'package:revelation/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 // Chapters
 
 class CaQueries {

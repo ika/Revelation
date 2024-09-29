@@ -1,7 +1,5 @@
 // 5 points database queries
 
-
-
 import 'package:revelation/about/model.dart';
 import 'package:revelation/about/provider.dart';
 import 'package:revelation/utils/const.dart';
@@ -10,7 +8,6 @@ AboutProvider aboutProvider = AboutProvider();
 const String _dbTable = Constants.aboutTable;
 
 class AbQueries {
-
   Future<List<About>> getParagraphs() async {
     final db = await aboutProvider.database;
 

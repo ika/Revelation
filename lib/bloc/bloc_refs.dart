@@ -28,4 +28,3 @@
 //   @override
 //   Map<String, dynamic>? toJson(bool state) => {'refs': state};
 // }
-

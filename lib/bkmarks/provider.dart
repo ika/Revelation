@@ -2,7 +2,6 @@ import 'package:revelation/utils/const.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 // Bookmarks database helper
 
 class BMProvider {

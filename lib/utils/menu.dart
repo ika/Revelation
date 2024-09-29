@@ -26,12 +26,14 @@ Future<dynamic> showPopupMenu(BuildContext context, BmModel model) async {
                         Future.delayed(
                           Duration(microseconds: Globals.navigatorDelay),
                           () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content:
-                                    Text(AppLocalizations.of(context)!.added),
-                              ),
-                            );
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text(AppLocalizations.of(context)!.added),
+                                ),
+                              );
+                            }
                           },
                         );
                       })

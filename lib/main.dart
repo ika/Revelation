@@ -1,6 +1,5 @@
-
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -21,7 +20,6 @@ import 'package:revelation/theme/theme.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 void main() async {
   //DartPluginRegistrant.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +30,9 @@ void main() async {
   }
 
   HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getApplicationDocumentsDirectory(),
+    storageDirectory: kIsWeb
+        ? HydratedStorage.webStorageDirectory
+        : await getTemporaryDirectory(),
   );
 
   runApp(const MyApp());
@@ -40,7 +40,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {

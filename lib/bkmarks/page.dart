@@ -10,8 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Bookmarks
 
-final StreamController<int> _controller = StreamController<int>();
-
 final BMQueries bmQueries = BMQueries();
 
 Future confirmDialog(BuildContext context, List list, int index) async {
@@ -67,7 +65,9 @@ class BMMarksPageState extends State<BMMarksPage> {
                     Future.delayed(
                       Duration(milliseconds: Globals.navigatorDelay),
                       () {
-                        Navigator.pop(context);
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
                       },
                     );
                   },
