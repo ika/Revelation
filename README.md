@@ -27,3 +27,5 @@ Ian K Armstong. B.Th. (U.N.I.S.A)
 https://github.com/ika/Revelation
 
 # Google Playstore
+
+https://play.google.com/store/apps/details?id=org.armstrong.ika.revelation
