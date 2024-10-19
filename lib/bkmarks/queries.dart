@@ -13,6 +13,7 @@ class BMQueries {
 
   Future<void> saveBookMark(BmModel model) async {
     final db = await provider.database;
+    db.close();
 
     model.subtitle = prepareText(model.subtitle, 150);
 

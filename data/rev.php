@@ -129,7 +129,7 @@ class Install
 // main loop
 //-----------------------------------------
 
-$install = true;
+$install = false;
 
 if ($install) {
 
@@ -154,51 +154,10 @@ $file = file_get_contents($filename);
 $array = preg_split("/\n{2,}/",$file);
 
 $data = array();
+
 foreach ($array as $part ){
-    $data = preg_split("/\n{2,}/",$part);
-#    print_r($data);
-
-#$file = $target_path;
-#$fileData = file_get_contents($file) or die('Could not read file!');
-#$parts = explode("\n\n", $data);
-#$data = array();
-#foreach ($parts as $part) {
-#    $data[] = explode("\n", $part);
-#}
-#exit();
-
-#for ($x = 0; $x < count($array[0]); $x++) {
-
- #   if(str_contains($array[$x], '|')) {
-
-        // two parts
-  #      $parts = explode('|', $array[$x]);
-
-    #    $data['h'] = trim($parts[0]); // text
- #       $data['t'] = trim($array[0][$x]); // text
-
-   # } else {
-    #    $data['h'] = ''; // text
-     #   $data['t'] = trim($array[$x]); // text
-   # }
-
-    // Substitute ref number for # ref number
-    // foreach ($range as $k => $v) {
-    //   $data['t'] = str_replace("$v", "#$v ", $data['t'], $c);
-    //  if ($c > 0) {
-    //     unset($range[$k]);
-    //}
-    //}
-
-    // Replace divider
-    //$data['t'] = str_replace("]", "", $data['t']);
-
-
-    // Replace new lines
+  $data = preg_split("/\n{2,}/",$part);
   $data[0] = str_replace("\n", " ", $data[0]);
-
-
-
 
     // Replace multiple spaces with one
     $data[0] = preg_replace('!\s+!', ' ', $data[0]);
