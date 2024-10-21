@@ -23,7 +23,7 @@ $databasename = "rev.db";
 
 $file = DOCUMENT_ROOT . "$filename";
 
-define("DATABASENAME", "$databasename");
+ define("DATABASENAME", "$databasename");
 define("FILE", "$file");
 define("TABLENAME", $tablename); // don't change this
 
@@ -129,7 +129,7 @@ class Install
 // main loop
 //-----------------------------------------
 
-$install = false;
+$install = true;
 
 if ($install) {
 

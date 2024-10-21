@@ -31,6 +31,10 @@ class RevProvider {
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes, flush: true);
+
+      await Future.delayed(const Duration(milliseconds: 500));
+
+     // debugPrint('DATABASE LOADED');
     }
 
     Database db = await openDatabase(path);

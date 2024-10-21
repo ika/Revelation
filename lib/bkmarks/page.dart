@@ -128,46 +128,8 @@ class BMMarksPageState extends State<BMMarksPage> {
                               UpdateScroll(index: list[index].para),
                             );
 
-                        // pop before return
-                        // int c = 0;
-                        // Navigator.of(context).popUntil((route) => c++ == 2);
-
-                        // debugPrint(list[index].doc.toString());
-                        // debugPrint(list[index].page.toString());
-                        // debugPrint(list[index].para.toString());
-
                         switch (list[index].doc) {
                           case 1:
-
-                            // Future.delayed(
-                            //   Duration(milliseconds: Globals.navigatorDelay),
-                            // () {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) =>
-                            //           ProofsPage(page: list[index].page),
-                            //     ),
-                            //   ).then(
-                            //     (value) {
-                            //       int c = 0;
-                            //       Navigator.of(context)
-                            //           .popUntil((route) => c++ >= 2);
-                            //     },
-                            //   );
-                            // },
-                            // () {
-                            //   Navigator.push(
-                            //      context,
-                            //      MaterialPageRoute(
-                            //        builder: (context) =>
-                            //            const ConfPage(),
-                            //      ),
-                            //   );
-                            // },
-                            //);
-                            //break;
-                            //case 2:
                             Future.delayed(
                               Duration(milliseconds: Globals.navigatorDelay),
                               () {

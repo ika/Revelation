@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 // Bookmarks database helper
 
 class BMProvider {
-  final int newDbVerson = 1;
+  final int newDbVerson = 2;
 
   final String _dbName = Constants.bmarksDatabase;
   final String _dbTable = Constants.bmarksTable;

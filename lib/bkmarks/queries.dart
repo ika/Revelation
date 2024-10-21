@@ -2,10 +2,25 @@ import 'dart:async';
 import 'package:revelation/bkmarks/model.dart';
 import 'package:revelation/bkmarks/provider.dart';
 import 'package:revelation/utils/const.dart';
-import 'package:revelation/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
 // Bookmarks database helper
+
+List<BmModel> noneFound() {
+  List<BmModel> returnList = [];
+
+  final defList = BmModel(
+      id: 0,
+      title: 'Revelation',
+      subtitle: 'No Bookmarks found!',
+      doc: 0,
+      page: 0,
+      para: 0);
+
+  returnList.add(defList);
+
+  return returnList;
+}
 
 class BMQueries {
   final BMProvider provider = BMProvider();
@@ -13,9 +28,6 @@ class BMQueries {
 
   Future<void> saveBookMark(BmModel model) async {
     final db = await provider.database;
-    db.close();
-
-    model.subtitle = prepareText(model.subtitle, 150);
 
     await db.insert(
       _dbTable,
@@ -49,7 +61,7 @@ class BMQueries {
               );
             },
           )
-        : [];
+        : noneFound();
     return list;
   }
 
