@@ -1,31 +1,16 @@
-# Revelation, The Book of
+# revelation
 
-The Revelation of the Apostle John, while he was on the Island of Patmos.
+A translation of the Book of Revelation
 
-# Translation
+## Getting Started
 
-This text was translated from the Nova Vulgata, taking other translations into careful consideration.
+This project is a starting point for a Flutter application.
 
-# Privacy Policy
+A few resources to get you started if this is your first Flutter project:
 
-This app does not record any user information at all. No registration is required. No Internet connections is needed once the app is installed.
-https://sites.google.com/view/revelation-privacy/home
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-# Licence
-
-This software may be freely downloaded and distributed, as long as the text is not changed in any way, and that the GPLv3 (see below) licence is adhered to.
-
-# GPLv3
-
-https://www.gnu.org/licenses/gpl-3.0.html
-
-# Programmer and Translator
-Ian K Armstong. B.Th. (U.N.I.S.A)
-
-# Source Code
-
-https://github.com/ika/Revelation
-
-# Google Playstore
-
-https://play.google.com/store/apps/details?id=org.armstrong.ika.revelation
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
